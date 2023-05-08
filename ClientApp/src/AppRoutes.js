@@ -1,3 +1,4 @@
+import  AuthorList  from "./components/AuthorList";
 import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
@@ -14,7 +15,13 @@ const AppRoutes = [
   {
     path: '/fetch-data',
     element: <FetchData />
+  },
+
+  {
+    path: '/author',
+    element: <AuthorList />
   }
+  
 ];
 
 export default AppRoutes;
