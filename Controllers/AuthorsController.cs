@@ -2,7 +2,8 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using JWTAuthentication.Auth;
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class AuthorsController : ControllerBase

@@ -2,11 +2,11 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using JWTAuthentication.Auth;
 
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/Books")]
 public class BooksController : ControllerBase
 {
     private readonly LibraryContext _context;
@@ -56,7 +56,7 @@ public class BooksController : ControllerBase
         
         var book = _mapper.Map<Book>(bookViewModel);
         book.CreatedAt = DateTime.Now;
-        book.CreatedBy = User.Identity.Name ?? "Unknown";
+        book.CreatedBy = User.Identity.Name;
 
         _context.Books.Add(book);
         await _context.SaveChangesAsync();
@@ -82,7 +82,7 @@ public class BooksController : ControllerBase
 
         _mapper.Map(bookViewModel, book);
         book.CreatedAt = DateTime.Now;
-        book.CreatedBy = User.Identity.Name ?? "Unknown";
+        book.CreatedBy = User.Identity.Name;
 
         _context.Entry(book).State = EntityState.Modified;
 
