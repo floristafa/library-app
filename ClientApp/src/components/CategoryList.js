@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const CategoryList = () => {
+function CategoryList() {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -17,15 +17,25 @@ const CategoryList = () => {
   return (
     <div>
       <h2>Categories</h2>
-      <ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Priority</th>
+          </tr>
+        </thead>
+        <tbody>
         {categories.map(category => (
-          <li key={category.id}>
-            {category.name} ({category.bookCount})
-          </li>
-        ))}
-      </ul>
+          <tr key={category.id}>
+              <td>{category.name}</td>
+              <td>{category.priority}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
+  
 };
 
 export default CategoryList;

@@ -1,26 +1,34 @@
 import  AuthorList  from "./components/AuthorList";
-import { Counter } from "./components/Counter";
-import { FetchData } from "./components/FetchData";
+import  CategoryList  from "./components/CategoryList";
+import BookList from "./components/BookList";
+import AuthorReport from "./components/AuthorReport";
 import { Home } from "./components/Home";
+
 
 const AppRoutes = [
   {
     index: true,
     element: <Home />
   },
+  
   {
-    path: '/counter',
-    element: <Counter />
-  },
-  {
-    path: '/fetch-data',
-    element: <FetchData />
+    path: '/api/Books',
+    element: <BookList />
   },
 
   {
-    path: '/author',
+    path: '/api/Authors',
     element: <AuthorList />
-  }
+  },
+  {
+    path: 'api/Categories',
+    element: <CategoryList />
+  },
+  {
+    path: 'api/Report',
+    element: <AuthorReport />
+  },
+  
   
 ];
 

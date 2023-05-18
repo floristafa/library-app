@@ -1,9 +1,14 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 namespace JWTAuthentication.Auth
 
 {
     public class RegisterModel
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        
         [Required(ErrorMessage = "User Name is required")]
         public string? Username { get; set; }
 

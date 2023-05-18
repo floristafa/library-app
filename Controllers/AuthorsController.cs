@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using JWTAuthentication.Auth;
 [Authorize]
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/Authors")]
 public class AuthorsController : ControllerBase
 {
     private readonly LibraryContext _context;

@@ -55,13 +55,14 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseSwagger();
     app.UseSwaggerUI(option =>
     {
         option.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger Flori");
+        option.RoutePrefix = string.Empty;
     });
     app.UseHsts();
     
@@ -81,10 +82,7 @@ app.UseEndpoints(endpoints =>
         endpoints.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
-        endpoints.MapControllerRoute(
-            name: "books",
-            pattern: "api/Books/{action=Index}/{id?}",
-            defaults: new { controller = "Books" });
+        
     });
     app.UseEndpoints(endpoints =>
     {
@@ -108,16 +106,6 @@ app.UseEndpoints(endpoints =>
             defaults: new { controller = "Category" });
     });
 
-    app.UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
-        endpoints.MapControllerRoute(
-            name: "users",
-            pattern: "users/{action=Index}/{id?}",
-            defaults: new { controller = "User" });
-    });
 
 
     app.UseEndpoints(endpoints =>

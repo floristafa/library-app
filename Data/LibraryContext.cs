@@ -18,7 +18,6 @@ namespace JWTAuthentication.Auth
         public DbSet<Category> Categories { get; set; }
         public DbSet<BookCategory> BookCategories { get; set; }
         
-
-
+        
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using JWTAuthentication.Auth;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/Categories")]
 public class CategoriesController : ControllerBase
 {
     private readonly LibraryContext _context;

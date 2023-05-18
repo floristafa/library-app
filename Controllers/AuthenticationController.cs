@@ -8,7 +8,7 @@ using System.Text;
 
 namespace JWTAuthentication.Auth
 {
-    [Route("api/[controller]")]
+    [Route("api/Authenticate")]
     [ApiController]
     public class AuthenticateController : ControllerBase
     {
