@@ -21,11 +21,11 @@ const AppRoutes = [
     element: <AuthorList />
   },
   {
-    path: 'api/Categories',
+    path: '/api/Categories',
     element: <CategoryList />
   },
   {
-    path: 'api/Report',
+    path: '/api/Report/report',
     element: <AuthorReport />
   },
   

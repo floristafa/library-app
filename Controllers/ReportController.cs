@@ -19,7 +19,7 @@ public class ReportController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpGet("report")]
+    [HttpGet]
     public IActionResult Report()
     {
         var authors = _context.Authors

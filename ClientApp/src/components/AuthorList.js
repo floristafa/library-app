@@ -7,7 +7,7 @@ function AuthorList() {
 
 
   useEffect(() => {
-    axios.get('/api/authors')
+    axios.get('api/Authors')
       .then(response => {
         setAuthors(response.data);
       })

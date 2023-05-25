@@ -10,7 +10,7 @@ public class Category
     public string Name { get; set; }
     public int Priority { get; set; }
     public DateTime CreatedAt { get; set; }
-    public string CreatedBy { get; set; }
+    public string? CreatedBy { get; set; }
 
     public ICollection<Book> Books { get; set; }
 }

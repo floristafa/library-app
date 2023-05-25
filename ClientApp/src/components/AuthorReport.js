@@ -4,7 +4,7 @@ const Report = () => {
   const [authorReports, setAuthorReports] = useState([]);
 
   useEffect(() => {
-    fetch('/api/Report')
+    fetch('/api/Report/report')
       .then((response) => response.json())
       .then((data) => setAuthorReports(data));
   }, []);

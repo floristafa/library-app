@@ -2,8 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-namespace JWTAuthentication.Auth
-{
+
+
     public class LibraryContext : IdentityDbContext<IdentityUser>
     {
         public LibraryContext(DbContextOptions<LibraryContext> options) : base(options)
@@ -20,4 +20,4 @@ namespace JWTAuthentication.Auth
         
         
     }
-}
+

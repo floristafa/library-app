@@ -14,6 +14,11 @@ builder.Services.AddDbContext<LibraryContext>(option =>{
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
 });
 
+
+// Adding AutoMapper
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 // For Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<LibraryContext>()
@@ -25,27 +30,30 @@ builder.Services.AddAuthentication(options =>
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-
-// Adding Jwt Bearer
-.AddJwtBearer(options =>
+}).AddJwtBearer(options =>
 {
     options.SaveToken = true;
     options.RequireHttpsMetadata = false;
     options.TokenValidationParameters = new TokenValidationParameters()
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidAudience = configuration["JWT:ValidAudience"],
-        ValidIssuer = configuration["JWT:ValidIssuer"],
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        // ValidAudience = configuration["JWT:ValidAudience"],
+        // ValidIssuer = configuration["JWT:ValidIssuer"],
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
     };
 });
 
-builder.Services.AddControllersWithViews();
-builder.Services.AddControllers(option=> {
+//builder.Services.AddControllersWithViews();
+builder.Services.AddControllers(options => 
+
+{options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
     //option.ReturnHttpNotAcceptable=true;
 }).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
+
+    
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -69,7 +77,8 @@ if (app.Environment.IsDevelopment())
     
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+app.UseDefaultFiles();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
@@ -77,48 +86,49 @@ app.UseAuthorization();
 app.MapControllers();
 
 // Define endpoints here, such as for controllers
-app.UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// app.UseEndpoints(endpoints =>
+//     {
+//         endpoints.MapControllerRoute(
+//             name: "default",
+//             pattern: "{controller=Home}/{action=Index}/{id?}");
         
-    });
-    app.UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
-        endpoints.MapControllerRoute(
-            name: "authors",
-            pattern: "api/Authors/{action=Index}/{id?}",
-            defaults: new { controller = "Author" });
-    });
+//     });
+//     app.UseEndpoints(endpoints =>
+//     // {
+    //     endpoints.MapControllerRoute(
+    //         name: "default",
+    //         pattern: "{controller=Home}/{action=Index}/{id?}");
+    //     endpoints.MapControllerRoute(
+    //         name: "authors",
+    //         pattern: "/api/Authors/{action=Index}/{id?}",
+    //         defaults: new { controller = "Author" });
+    // });
 
-    app.UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
-        endpoints.MapControllerRoute(
-            name: "categories",
-            pattern: "categories/{action=Index}/{id?}",
-            defaults: new { controller = "Category" });
-    });
-
-
-
-    app.UseEndpoints(endpoints =>
-    {
-        endpoints.MapControllers();
-    });
+    // app.UseEndpoints(endpoints =>
+    // {
+    //     endpoints.MapControllerRoute(
+    //         name: "default",
+    //         pattern: "{controller=Home}/{action=Index}/{id?}");
+    //     endpoints.MapControllerRoute(
+    //         name: "categories",
+    //         pattern: "categories/{action=Index}/{id?}",
+    //         defaults: new { controller = "Category" });
+    // });
 
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
 
-app.MapFallbackToFile("index.html");
+    // app.UseEndpoints(endpoints =>
+    // {
+    //     endpoints.MapControllers();
+    // });
+
+
+// app.MapControllerRoute(
+//     name: "default",
+//     pattern: "{controller}/{action=Index}/{id?}");
+
+app.MapFallbackToFile("/index.html");
 
 app.Run();
 

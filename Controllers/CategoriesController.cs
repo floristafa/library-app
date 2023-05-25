@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using JWTAuthentication.Auth;
 
+[Authorize]
 [ApiController]
 [Route("api/Categories")]
 public class CategoriesController : ControllerBase

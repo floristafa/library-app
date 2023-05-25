@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
+
 public class Author
 {
     [Key]
@@ -9,7 +11,7 @@ public class Author
     public string Name { get; set; }
     public string Bio { get; set; }
     public DateTime CreatedAt { get; set; }
-    public string CreatedBy { get; set; }
+    public string? CreatedBy { get; set; }
 
     public ICollection<Book>? Books { get; set; }
 }

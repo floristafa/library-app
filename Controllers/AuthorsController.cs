@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using JWTAuthentication.Auth;
+
 [Authorize]
 [ApiController]
 [Route("api/Authors")]
@@ -16,6 +17,8 @@ public class AuthorsController : ControllerBase
         _context = context;
         _mapper = mapper;
     }
+
+    
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AuthorViewModel>>> GetAuthors()
@@ -124,4 +127,6 @@ public class AuthorsController : ControllerBase
     {
         return _context.Authors.Any(a => a.Id == id);
     }
+
+    
 }

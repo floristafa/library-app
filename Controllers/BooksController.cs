@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using JWTAuthentication.Auth;
 
-
+[Authorize]
 [ApiController]
 [Route("api/Books")]
 public class BooksController : ControllerBase
@@ -50,7 +50,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, User")]
     public async Task<ActionResult<BookViewModel>> CreateBook(BookViewModel bookViewModel)
     {
         
@@ -65,7 +65,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, User")]
     public async Task<IActionResult> UpdateBook(int id, BookViewModel bookViewModel)
     {
         if (id != bookViewModel.Id)
@@ -106,7 +106,7 @@ public class BooksController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin, User")]
     public async Task<IActionResult> DeleteBook(int id)
     {
         var book = await _context.Books.FindAsync(id);
