@@ -58,6 +58,9 @@ builder.Services.AddControllers(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//add CORS
+builder.Services.AddCors();
+
 
 
 var app = builder.Build();
@@ -84,6 +87,12 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.UseCors(builder =>{
+    builder
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader();
+});
 
 // Define endpoints here, such as for controllers
 

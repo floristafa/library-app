@@ -1,45 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
 
-const AuthorForm = ({ authorId, onSubmit }) => {
-  const [author, setAuthor] = useState({
-    name: '',
-    bio: ''
-  });
+const AuthorForm = () => {
+  const history = useHistory();
+  const { id } = useParams();
+  const [name, setName] = useState('');
+  const [bio, setBio] = useState('');
 
-  useEffect(() => {
-    if (authorId) {
-      axios.get(`/api/authors/${authorId}`)
-        .then(response => {
-          setAuthor(response.data);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      if (id) {
+        await axios.put(`/api/Authors/${id}`, { name, bio });
+      } else {
+        await axios.post('/api/Authors', { name, bio });
+      }
+      history.push('/authors');
+    } catch (error) {
+      console.error('Error saving author:', error);
     }
-  }, [authorId]);
-
-  const handleSubmit = event => {
-    event.preventDefault();
-    onSubmit(author);
-  };
-
-  const handleChange = event => {
-    setAuthor({ ...author, [event.target.name]: event.target.value });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="name">Name</label>
-        <input type="text" id="name" name="name" value={author.name} onChange={handleChange} required />
-      </div>
-      <div>
-        <label htmlFor="bio">Bio</label>
-        <textarea id="bio" name="bio" value={author.bio} onChange={handleChange} required />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
+    <div>
+      <h1>{id ? 'Edit Author' : 'Create Author'}</h1>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Name:
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </label>
+        <label>
+          Bio:
+          <textarea
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+          ></textarea>
+        </label>
+        <button type="submit">{id ? 'Update' : 'Create'}</button>
+      </form>
+    </div>
   );
 };
 

@@ -7,7 +7,7 @@ function BookList() {
 
   useEffect(() => {
     const fetchBooks = async () => {
-      const result = await axios('/api/Books');
+      const result = await axios.get('https://localhost:7261/api/Books/');
       setBooks(result.data);
     };
     fetchBooks();

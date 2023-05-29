@@ -1,43 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-
-function AuthorList() {
+const AuthorList = () => {
   const [authors, setAuthors] = useState([]);
 
-
   useEffect(() => {
-    axios.get('api/Authors')
-      .then(response => {
-        setAuthors(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    fetchAuthors();
   }, []);
+
+  const fetchAuthors = async () => {
+    try {
+      const response = await axios.get('/api/Authors');
+      setAuthors(response.data);
+    } catch (error) {
+      console.error('Error fetching authors:', error);
+    }
+  };
+
+  const deleteAuthor = async (id) => {
+    try {
+      await axios.delete(`/api/Authors/${id}`);
+      fetchAuthors();
+    } catch (error) {
+      console.error('Error deleting author:', error);
+    }
+  };
 
   return (
     <div>
-      <h2>Authors</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Bio</th>
-          </tr>
-        </thead>
-        <tbody>
-          {authors.map((author) => (
-            <tr key={author.id}>
-              <td>{author.name}</td>
-              <td>{author.bio}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <h1>Author List</h1>
+      <ul>
+        {authors.map((author) => (
+          <li key={author.id}>
+            <Link to={`/authors/${author.id}`}>{author.name}</Link>
+            <button onClick={() => deleteAuthor(author.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
-  
 };
 
 export default AuthorList;
