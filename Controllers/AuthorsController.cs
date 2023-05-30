@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using JWTAuthentication.Auth;
 
-[Authorize]
+
 [ApiController]
 [Route("api/Authors")]
 public class AuthorsController : ControllerBase
@@ -19,7 +19,7 @@ public class AuthorsController : ControllerBase
     }
 
     
-
+    [Authorize]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AuthorViewModel>>> GetAuthors()
     {
@@ -34,7 +34,7 @@ public class AuthorsController : ControllerBase
 
         return Ok(authorViewModels);
     }
-
+    [Authorize]
     [HttpGet("{id}")]
     public async Task<ActionResult<AuthorViewModel>> GetAuthor(int id)
     {

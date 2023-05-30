@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
+import authHeader from '../services/auth-header';
+import authService from '../services/auth.service';
 
 Modal.setAppElement('#root'); // Set the app root element for accessibility
 
-const AuthorsCRUD1 = () => {
+const AuthorsCRUD = () => {
   const [authors, setAuthors] = useState([]);
   const [newAuthor, setNewAuthor] = useState({
     name: '',
@@ -15,17 +17,22 @@ const AuthorsCRUD1 = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    fetchAuthors();
-    // Simulate user login
-    setUser({
-      username: 'flori1',
-      role: 'Admin'
-    });
+    const fetchData = async () => {
+      try {
+        const currentUser = await authService.getCurrentUserRole;
+        setUser(currentUser);
+        fetchAuthors();
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const fetchAuthors = async () => {
     try {
-      const response = await axios.get('/api/Authors');
+      const response = await axios.get('/api/Authors', { headers: authHeader() });
       setAuthors(response.data);
     } catch (error) {
       console.error('Error fetching authors:', error);
@@ -38,7 +45,7 @@ const AuthorsCRUD1 = () => {
 
   const handleAddAuthor = async () => {
     try {
-      const response = await axios.post('/api/Authors', newAuthor);
+      const response = await axios.post('/api/Authors', newAuthor, { headers: authHeader() });
       setAuthors([...authors, response.data]);
       setNewAuthor({ name: '', bio: '' });
     } catch (error) {
@@ -48,7 +55,7 @@ const AuthorsCRUD1 = () => {
 
   const handleDeleteAuthor = async (author) => {
     try {
-      await axios.delete(`/api/Authors/${author.id}`);
+      await axios.delete(`/api/Authors/${author.id}`, { headers: authHeader() });
       setAuthors(authors.filter((a) => a.id !== author.id));
       setDeleteAuthor(null);
     } catch (error) {
@@ -58,7 +65,7 @@ const AuthorsCRUD1 = () => {
 
   const handleEditAuthor = async () => {
     try {
-      await axios.put(`/api/Authors/${editAuthor.id}`, editAuthor);
+      await axios.put(`/api/Authors/${editAuthor.id}`, editAuthor, { headers: authHeader() });
       setAuthors((prevAuthors) =>
         prevAuthors.map((a) => (a.id === editAuthor.id ? editAuthor : a))
       );
@@ -218,4 +225,4 @@ const AuthorsCRUD1 = () => {
   );
 };
 
-export default AuthorsCRUD1;
+export default AuthorsCRUD;
