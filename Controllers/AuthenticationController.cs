@@ -7,6 +7,8 @@ using System.Security.Claims;
 using System.Text;
 
 
+
+
     [Route("api/Authenticate")]
     [ApiController]
     public class AuthenticateController : ControllerBase
@@ -25,6 +27,26 @@ using System.Text;
             _configuration = configuration;
         }
 
+
+        [HttpGet]
+        [Route("users")]
+        public IActionResult GetUsers()
+        {
+            var users = _userManager.Users.ToList();
+            return Ok(users);
+        }
+
+        [HttpGet]
+        [Route("users/{id}")]
+        public async Task<IActionResult> GetUserById(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+                return NotFound();
+
+            return Ok(user);
+        }
+
         [HttpPost]
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
@@ -36,7 +58,7 @@ using System.Text;
 
                 var authClaims = new List<Claim>
                 {
-                    // new Claim(ClaimTypes.Role, UserRoles.Admin),
+                    new Claim(ClaimTypes.Role, UserRoles.Admin),
                     new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
