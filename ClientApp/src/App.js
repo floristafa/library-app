@@ -7,15 +7,18 @@ import Home from "./components/Home";
 import Private from "./components/Private";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AuthorsCRUD1 from "./components/AuthorsCRUD1";
+import BooksCRUD from "./components/BooksCRUD";
+import Report from "./components/AuthorReport";
+
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(undefined);
-
+  const [currentUser, setUserRole] = useState(undefined);
+  
   useEffect(() => {
-    const user = AuthService.getCurrentUser();
+    const role = AuthService.getCurrentUserRole();
 
-    if (user) {
-      setCurrentUser(user);
+    if (role) {
+      setUserRole(role);
     }
   }, []);
 
@@ -32,14 +35,33 @@ function App() {
               Home
             </Link>
           </li>
+          
 
           {currentUser && (
+          <div className="navbar-nav ms-auto">
             <li className="nav-item">
               <Link to={"/api/Authors"} className="nav-link">
-                Private
+                Authors
               </Link>
             </li>
-          )}
+
+            <li className="nav-item">
+              <Link to={"/api/Books"} className="nav-link">
+                Books
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to={"/api/Categories"} className="nav-link">
+                Categories
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to={"/api/Report"} className="nav-link">
+                Report
+              </Link>
+            </li>
+          </div>
+        )}
         </div>
 
         {currentUser ? (
@@ -70,10 +92,12 @@ function App() {
       <div className="container mt-3">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/api/Books" element={<Private />} />
+          {/* <Route path="/api/Books" element={<Private />} /> */}
           <Route path="/api/Authenticate/login" element={<Login />} />
           <Route path="/api/Authenticate/register-admin" element={<Signup />} />
           <Route path="/api/Authors" element={<AuthorsCRUD1 />} />
+          <Route path="/api/Books" element={<BooksCRUD />} />
+          <Route path="/api/Report" element={< Report/>} />
         </Routes>
       </div>
     </div>

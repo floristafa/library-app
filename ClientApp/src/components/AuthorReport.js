@@ -1,13 +1,36 @@
 import React, { useEffect, useState } from 'react';
+import authService from '../services/auth.service';
+import {authenticatedDelete, authenticatedGet, authenticatedPost} from "../services/axios.service";
+import { authenticatedPut } from '../services/axios.service';
 
 const Report = () => {
-  const [authorReports, setAuthorReports] = useState([]);
-
+  const [reports, setReports] = useState([]);
+  const [userRole, setUserRole] = useState(null);
   useEffect(() => {
-    fetch('/api/Report/report')
-      .then((response) => response.json())
-      .then((data) => setAuthorReports(data));
+    
+    const fetchData = async () => {
+      try {
+        const role = authService.getCurrentUserRole();
+        setUserRole(role);
+        fetchReport();
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+
+    fetchData();
   }, []);
+
+  const fetchReport = async () => {
+    try {
+      const response = await authenticatedGet('/api/Authors');
+      setReports(response.data);
+    } catch (error) {
+      console.error('Error fetching report:', error);
+    }
+  };
+
+  
 
   return (
     <div>
@@ -17,10 +40,11 @@ const Report = () => {
           <tr>
             <th>Author</th>
             <th>Number of Books</th>
+            
           </tr>
         </thead>
         <tbody>
-          {authorReports.map((author) => (
+          {reports.map((author) => (
             <tr key={author.authorName}>
               <td>{author.authorName}</td>
               <td>{author.bookCount}</td>

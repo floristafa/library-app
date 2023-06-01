@@ -14,8 +14,8 @@ const Login = () => {
       await AuthService.login(username, password).then(
         () => {
           console.log("Sign up successfully")
-          navigate("/api/Authors");
-          // window.location.reload();
+          navigate("/");
+          window.location.reload();
         },
         (error) => {
           console.log(error);

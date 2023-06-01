@@ -1,21 +1,11 @@
 import jwt_decode from "jwt-decode";
 
 export const authenticationService = {
-  login,
-  logout,
   getToken,
   getCurrentUserId,
   getCurrentUserName,
   getCurrentUserRole,
 };
-
-function login(token) {
-  localStorage.setItem("token", token);
-}
-
-function logout() {
-  localStorage.removeItem("token");
-}
 
 function getToken() {
   return localStorage.getItem("token") || "";

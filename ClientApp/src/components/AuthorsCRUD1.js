@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import Modal from 'react-modal';
-import authHeader from '../services/auth-header';
+
 import authService from '../services/auth.service';
+import {authenticatedDelete, authenticatedGet, authenticatedPost} from "../services/axios.service";
+import { authenticatedPut } from '../services/axios.service';
 
 Modal.setAppElement('#root'); // Set the app root element for accessibility
 
@@ -14,13 +15,13 @@ const AuthorsCRUD = () => {
   });
   const [editAuthor, setEditAuthor] = useState(null);
   const [deleteAuthor, setDeleteAuthor] = useState(null);
-  const [user, setUser] = useState(null);
+  const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const currentUser = await authService.getCurrentUserRole;
-        setUser(currentUser);
+        const role = authService.getCurrentUserRole();
+        setUserRole(role);
         fetchAuthors();
       } catch (error) {
         console.error('Error fetching user:', error);
@@ -32,7 +33,7 @@ const AuthorsCRUD = () => {
 
   const fetchAuthors = async () => {
     try {
-      const response = await axios.get('/api/Authors', { headers: authHeader() });
+      const response = await authenticatedGet('/api/Authors');
       setAuthors(response.data);
     } catch (error) {
       console.error('Error fetching authors:', error);
@@ -45,7 +46,7 @@ const AuthorsCRUD = () => {
 
   const handleAddAuthor = async () => {
     try {
-      const response = await axios.post('/api/Authors', newAuthor, { headers: authHeader() });
+      const response = await authenticatedPost('/api/Authors', newAuthor);
       setAuthors([...authors, response.data]);
       setNewAuthor({ name: '', bio: '' });
     } catch (error) {
@@ -55,7 +56,7 @@ const AuthorsCRUD = () => {
 
   const handleDeleteAuthor = async (author) => {
     try {
-      await axios.delete(`/api/Authors/${author.id}`, { headers: authHeader() });
+      await authenticatedDelete(`/api/Authors/${author.id}`);
       setAuthors(authors.filter((a) => a.id !== author.id));
       setDeleteAuthor(null);
     } catch (error) {
@@ -65,7 +66,7 @@ const AuthorsCRUD = () => {
 
   const handleEditAuthor = async () => {
     try {
-      await axios.put(`/api/Authors/${editAuthor.id}`, editAuthor, { headers: authHeader() });
+      await authenticatedPut(`/api/Authors/${editAuthor.id}`, editAuthor);
       setAuthors((prevAuthors) =>
         prevAuthors.map((a) => (a.id === editAuthor.id ? editAuthor : a))
       );
@@ -76,7 +77,7 @@ const AuthorsCRUD = () => {
   };
 
   const openEditModal = (author) => {
-    if (user && user.role === 'Admin') {
+    if (userRole === 'Admin') {
       setEditAuthor(author);
     }
   };
@@ -86,7 +87,7 @@ const AuthorsCRUD = () => {
   };
 
   const openCreateModal = () => {
-    if (user && user.role === 'Admin') {
+    if (userRole === 'Admin') {
       setNewAuthor({ name: '', bio: '' });
     }
   };
@@ -96,7 +97,7 @@ const AuthorsCRUD = () => {
   };
 
   const openDeleteModal = (author) => {
-    if (user && user.role === 'Admin') {
+    if (userRole === 'Admin') {
       setDeleteAuthor(author);
     }
   };
@@ -124,10 +125,10 @@ const AuthorsCRUD = () => {
               <td>{author.name}</td>
               <td>{author.bio}</td>
               <td>
-                {user && user.role === 'Admin' && (
+                {userRole === 'Admin' && (
                   <button onClick={() => openEditModal(author)}>Edit</button>
                 )}
-                {user && user.role === 'Admin' && (
+                {userRole === 'Admin' && (
                   <button onClick={() => openDeleteModal(author)}>Delete</button>
                 )}
               </td>
@@ -136,7 +137,7 @@ const AuthorsCRUD = () => {
         </tbody>
       </table>
 
-      {user && user.role === 'Admin' && (
+      {userRole === 'Admin' && (
         <>
           <h2>Add Author</h2>
           <button onClick={openCreateModal}>Add</button>

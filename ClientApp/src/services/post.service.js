@@ -1,14 +1,13 @@
-import axios from "axios";
-import authHeader from "./auth-header";
+import { authenticatedGet } from "./axios.service";
 
 const API_URL = "/api/Authors";
 
 const getAllPublicPosts = () => {
-  return axios.get(API_URL ,{ headers: authHeader() });
+  return authenticatedGet(API_URL);
 };
 
 const getAllPrivatePosts = () => {
-  return axios.get(API_URL , { headers: authHeader() });
+  return authenticatedGet(API_URL);
 };
 
 const postService = {

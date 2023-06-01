@@ -45,7 +45,7 @@ using System.Text;
                 return NotFound();
 
             return Ok(user);
-        }
+        } 
 
         [HttpPost]
         [Route("login")]
@@ -58,7 +58,7 @@ using System.Text;
 
                 var authClaims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Role, UserRoles.Admin),
+                    // new Claim(ClaimTypes.Role, UserRoles.Admin),
                     new Claim(ClaimTypes.Name, user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
