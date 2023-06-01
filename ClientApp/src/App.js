@@ -4,11 +4,11 @@ import AuthService from "./services/auth.service";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
-import Private from "./components/Private";
 import "bootstrap/dist/css/bootstrap.min.css";
 import AuthorsCRUD1 from "./components/AuthorsCRUD1";
 import BooksCRUD from "./components/BooksCRUD";
 import Report from "./components/AuthorReport";
+import CategoriesCRUD from "./components/CategoriesCRUD";
 
 
 function App() {
@@ -67,7 +67,7 @@ function App() {
         {currentUser ? (
           <div className="navbar-nav ms-auto">
             <li className="nav-item">
-              <a href="/api/Authenticate/login" className="nav-link" onClick={logOut}>
+              <a href="/" className="nav-link" onClick={logOut}>
                 Logout
               </a>
             </li>
@@ -92,12 +92,12 @@ function App() {
       <div className="container mt-3">
         <Routes>
           <Route path="/" element={<Home />} />
-          {/* <Route path="/api/Books" element={<Private />} /> */}
           <Route path="/api/Authenticate/login" element={<Login />} />
           <Route path="/api/Authenticate/register-admin" element={<Signup />} />
           <Route path="/api/Authors" element={<AuthorsCRUD1 />} />
           <Route path="/api/Books" element={<BooksCRUD />} />
           <Route path="/api/Report" element={< Report/>} />
+          <Route path="/api/Categories" element={< CategoriesCRUD/>} />
         </Routes>
       </div>
     </div>

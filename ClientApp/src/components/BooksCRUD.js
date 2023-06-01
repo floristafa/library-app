@@ -9,11 +9,7 @@ Modal.setAppElement('#root1'); // Set the app root element for accessibility
 
 const BooksCRUD = () => {
   const [books, setBooks] = useState([]);
-  const [newBook, setNewBook] = useState({
-    name: '',
-    description: '',
-    imageUrl: '',
-  });
+  const [newBook, setNewBook] = useState(null);
   const [editBook, setEditBook] = useState(null);
   const [deleteBook, setDeleteBook] = useState(null);
   const [userRole, setUserRole] = useState(null);
@@ -195,7 +191,7 @@ const BooksCRUD = () => {
               />
             </div>
             <button onClick={handleEditBook}>Save</button>
-            <button onClick={closeEditModal}>Cancel</button>
+            <button onClick={closeEditModal}>Close</button>
           </Modal>
 
           <Modal
@@ -245,7 +241,7 @@ const BooksCRUD = () => {
               />
             </div>
             <button onClick={handleAddBook}>Create</button>
-            <button onClick={closeCreateModal}>Cancel</button>
+            <button onClick={closeCreateModal}>Close</button>
           </Modal>
         </>
       )}

@@ -9,10 +9,8 @@ Modal.setAppElement('#root'); // Set the app root element for accessibility
 
 const AuthorsCRUD = () => {
   const [authors, setAuthors] = useState([]);
-  const [newAuthor, setNewAuthor] = useState({
-    name: '',
-    bio: ''
-  });
+  const [newAuthor, setNewAuthor] = useState(null);
+
   const [editAuthor, setEditAuthor] = useState(null);
   const [deleteAuthor, setDeleteAuthor] = useState(null);
   const [userRole, setUserRole] = useState(null);
@@ -95,6 +93,7 @@ const AuthorsCRUD = () => {
   const closeCreateModal = () => {
     setNewAuthor(null);
   };
+  
 
   const openDeleteModal = (author) => {
     if (userRole === 'Admin') {
@@ -177,7 +176,7 @@ const AuthorsCRUD = () => {
               />
             </div>
             <button onClick={handleEditAuthor}>Save</button>
-            <button onClick={closeEditModal}>Cancel</button>
+            <button onClick={closeEditModal}>Close</button>
           </Modal>
 
           <Modal
@@ -218,7 +217,7 @@ const AuthorsCRUD = () => {
               />
             </div>
             <button onClick={handleAddAuthor}>Create</button>
-            <button onClick={closeCreateModal}>Cancel</button>
+            <button onClick={closeCreateModal}>Close</button>
           </Modal>
         </>
       )}
