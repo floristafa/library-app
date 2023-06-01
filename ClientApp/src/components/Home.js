@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from "react";
+import "../home.css"
+
+import React from "react";
 
 const Home = () => {
-
-
   return (
-    <div>
-      <h1>
-       WELCOME TO THE LIBRARY APPLICATION!
-      </h1>
+    <div className="home-container">
+      <h1 className="home-title">WELCOME TO THE LIBRARY APPLICATION!</h1>
     </div>
   );
 };

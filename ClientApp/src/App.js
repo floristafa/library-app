@@ -55,11 +55,13 @@ function App() {
                 Categories
               </Link>
             </li>
+            {currentUser === "Admin" && (
             <li className="nav-item">
               <Link to={"/api/Report"} className="nav-link">
                 Report
               </Link>
             </li>
+            )}
           </div>
         )}
         </div>

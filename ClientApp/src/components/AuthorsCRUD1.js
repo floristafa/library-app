@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 
 import authService from '../services/auth.service';
-import {authenticatedDelete, authenticatedGet, authenticatedPost} from "../services/axios.service";
+import { authenticatedDelete, authenticatedGet, authenticatedPost } from "../services/axios.service";
 import { authenticatedPut } from '../services/axios.service';
+import "../table.css"
 
 Modal.setAppElement('#root'); // Set the app root element for accessibility
 
@@ -93,7 +94,6 @@ const AuthorsCRUD = () => {
   const closeCreateModal = () => {
     setNewAuthor(null);
   };
-  
 
   const openDeleteModal = (author) => {
     if (userRole === 'Admin') {
@@ -107,120 +107,138 @@ const AuthorsCRUD = () => {
 
   return (
     <div>
-      <h1>Author List</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Bio</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {authors.map((author) => (
-            <tr key={author.id}>
-              <td>{author.id}</td>
-              <td>{author.name}</td>
-              <td>{author.bio}</td>
-              <td>
-                {userRole === 'Admin' && (
-                  <button onClick={() => openEditModal(author)}>Edit</button>
-                )}
-                {userRole === 'Admin' && (
-                  <button onClick={() => openDeleteModal(author)}>Delete</button>
-                )}
-              </td>
+      <div>
+        <h1 className="page-title">Author List</h1>
+        {userRole === 'Admin' && (
+        <div style={{ marginBottom: '10px' }}>
+          <h2 style={{ display: 'inline-block', marginRight: '20px' }}>Add new Author</h2>
+          
+            <button className="create-button" onClick={openCreateModal}>Add</button>
+          
+        </div>
+        )}
+        <table className="custom-table">
+          <thead className="table-head">
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Bio</th>
+              {userRole === 'Admin' && ( // Render the Actions column header if userRole is 'Admin'
+                <th>Actions</th>
+              )}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {authors.map((author) => (
+              <tr key={author.id}>
+                <td>{author.id}</td>
+                <td>{author.name}</td>
+                <td>{author.bio}</td>
+                {userRole === 'Admin' && ( // Render the Actions column header if userRole is 'Admin'
 
-      {userRole === 'Admin' && (
-        <>
-          <h2>Add Author</h2>
-          <button onClick={openCreateModal}>Add</button>
 
-          <Modal
-            isOpen={!!editAuthor}
-            onRequestClose={closeEditModal}
-            contentLabel="Edit Author Modal"
-          >
-            <h2>Edit Author</h2>
-            <div>
-              <label>Name:</label>
-              <input
-                type="text"
-                name="name"
-                value={editAuthor ? editAuthor.name : ''}
-                onChange={(e) =>
-                  setEditAuthor((prevAuthor) => ({
-                    ...prevAuthor,
-                    name: e.target.value
-                  }))
-                }
-              />
-            </div>
-            <div>
-              <label>Bio:</label>
-              <input
-                type="text"
-                name="bio"
-                value={editAuthor ? editAuthor.bio : ''}
-                onChange={(e) =>
-                  setEditAuthor((prevAuthor) => ({
-                    ...prevAuthor,
-                    bio: e.target.value
-                  }))
-                }
-              />
-            </div>
-            <button onClick={handleEditAuthor}>Save</button>
-            <button onClick={closeEditModal}>Close</button>
-          </Modal>
+                  <td>
+                    {userRole === 'Admin' && (
+                      <div className="action-buttons">
+                        <button className="edit-button" onClick={() => openEditModal(author)}>
+                          Edit
+                        </button>
+                      </div>
+                    )}
 
-          <Modal
-            isOpen={!!deleteAuthor}
-            onRequestClose={closeDeleteModal}
-            contentLabel="Delete Author Modal"
-          >
-            <h2>Delete Author</h2>
-            {deleteAuthor && (
-              <p>Are you sure you want to delete {deleteAuthor.name}?</p>
-            )}
-            <button onClick={() => handleDeleteAuthor(deleteAuthor)}>Delete</button>
-            <button onClick={closeDeleteModal}>Cancel</button>
-          </Modal>
+                    {userRole === 'Admin' && (
+                      <div className="action-buttons">
+                        <button className="delete-button" onClick={() => openDeleteModal(author)}>
+                          Delete
+                        </button>
+                      </div>
+                    )}
+                  </td>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-          <Modal
-            isOpen={!!newAuthor}
-            onRequestClose={closeCreateModal}
-            contentLabel="Add Author Modal"
-          >
-            <h2>Add Author</h2>
-            <div>
-              <label>Name:</label>
-              <input
-                type="text"
-                name="name"
-                value={newAuthor ? newAuthor.name : ''}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div>
-              <label>Bio:</label>
-              <input
-                type="text"
-                name="bio"
-                value={newAuthor ? newAuthor.bio : ''}
-                onChange={handleInputChange}
-              />
-            </div>
-            <button onClick={handleAddAuthor}>Create</button>
-            <button onClick={closeCreateModal}>Close</button>
-          </Modal>
-        </>
-      )}
+      <Modal
+        isOpen={!!editAuthor}
+        onRequestClose={closeEditModal}
+        contentLabel="Edit Author Modal"
+      >
+        <h2>Edit Author</h2>
+        <div>
+          <label>Name:</label>
+          <input
+            type="text"
+            name="name"
+            value={editAuthor ? editAuthor.name : ''}
+            onChange={(e) =>
+              setEditAuthor((prevAuthor) => ({
+                ...prevAuthor,
+                name: e.target.value
+              }))
+            }
+          />
+        </div>
+        <div>
+          <label>Bio:</label>
+          <input
+            type="text"
+            name="bio"
+            value={editAuthor ? editAuthor.bio : ''}
+            onChange={(e) =>
+              setEditAuthor((prevAuthor) => ({
+                ...prevAuthor,
+                bio: e.target.value
+              }))
+            }
+          />
+        </div>
+        <button className="create-button" onClick={handleEditAuthor}>Save</button>
+        <button className="delete-button" onClick={closeEditModal}>Close</button>
+      </Modal>
+
+      <Modal
+        isOpen={!!deleteAuthor}
+        onRequestClose={closeDeleteModal}
+        contentLabel="Delete Author Modal"
+      >
+        <h2>Delete Author</h2>
+        {deleteAuthor && (
+          <p>Are you sure you want to delete {deleteAuthor.name}?</p>
+        )}
+        <button className="delete-button" onClick={() => handleDeleteAuthor(deleteAuthor)}>Delete</button>
+        <button className="edit-button" onClick={closeDeleteModal}>Cancel</button>
+      </Modal>
+
+      <Modal
+        isOpen={!!newAuthor}
+        onRequestClose={closeCreateModal}
+        contentLabel="Add Author Modal"
+      >
+        <h2>Add Author</h2>
+        <div>
+          <label>Name:</label>
+          <input
+            type="text"
+            name="name"
+            value={newAuthor ? newAuthor.name : ''}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Bio:</label>
+          <input
+            type="text"
+            name="bio"
+            value={newAuthor ? newAuthor.bio : ''}
+            onChange={handleInputChange}
+          />
+        </div>
+        <button className="create-button" onClick={handleAddAuthor}>Create</button>
+        <button className="delete-button" onClick={closeCreateModal}>Close</button>
+      </Modal>
     </div>
   );
 };

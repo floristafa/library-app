@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import authService from '../services/auth.service';
 import {authenticatedDelete, authenticatedGet, authenticatedPost} from "../services/axios.service";
 import { authenticatedPut } from '../services/axios.service';
+import "../table.css"
 
 const Report = () => {
   const [reports, setReports] = useState([]);
@@ -34,9 +35,10 @@ const Report = () => {
 
   return (
     <div>
-      <h1>Author Report</h1>
-      <table>
-        <thead>
+      <h1 className="page-title">Author Report Page</h1>
+<table className="custom-table">
+  <thead className="table-head">
+    
           <tr>
             <th>Author</th>
             <th>Number of Books</th>

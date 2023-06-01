@@ -4,6 +4,7 @@ import Modal from 'react-modal';
 import authService from '../services/auth.service';
 import {authenticatedDelete, authenticatedGet, authenticatedPost} from "../services/axios.service";
 import { authenticatedPut } from '../services/axios.service';
+import "../table.css"
 
 Modal.setAppElement('#root1'); // Set the app root element for accessibility
 
@@ -105,9 +106,14 @@ const BooksCRUD = () => {
 
   return (
     <div>
-      <h1>Book List</h1>
-      <table>
-        <thead>
+    <div>
+      <h1 className="page-title">Book List</h1>
+      <div style={{ marginBottom: '10px' }}>
+          <h2 style={{ display: 'inline-block', marginRight: '20px' }}>Add new Book</h2>
+          <button className="create-button" onClick={openCreateModal}>Add</button>
+        </div>
+        <table className="custom-table">
+          <thead className="table-head">
           <tr>
             <th>ID</th>
             <th>Name</th>
@@ -125,21 +131,19 @@ const BooksCRUD = () => {
               <td>{book.imageUrl}</td>
               <td>
                 {userRole === 'Admin' && (
-                  <button onClick={() => openEditModal(book)}>Edit</button>
-                )}
-                {userRole === 'Admin' && (
-                  <button onClick={() => openDeleteModal(book)}>Delete</button>
+                  <div className="action-buttons">
+                  <button className="edit-button" onClick={() => openEditModal(book)}>Edit</button>
+                  <button className="delete-button" onClick={() => openDeleteModal(book)}>Delete</button>
+                  </div>
                 )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      </div>
 
-      {userRole === 'Admin' && (
-        <>
-          <h2>Add Book</h2>
-          <button onClick={openCreateModal}>Add</button>
+    
 
           <Modal
             isOpen={!!editBook}
@@ -190,8 +194,8 @@ const BooksCRUD = () => {
                 }
               />
             </div>
-            <button onClick={handleEditBook}>Save</button>
-            <button onClick={closeEditModal}>Close</button>
+            <button className="create-button" onClick={handleEditBook}>Save</button>
+            <button className="delete-button" onClick={closeEditModal}>Close</button>
           </Modal>
 
           <Modal
@@ -203,8 +207,8 @@ const BooksCRUD = () => {
             {deleteBook && (
               <p>Are you sure you want to delete {deleteBook.name}?</p>
             )}
-            <button onClick={() => handleDeleteBook(deleteBook)}>Delete</button>
-            <button onClick={closeDeleteModal}>Cancel</button>
+            <button className="delete-button" onClick={() => handleDeleteBook(deleteBook)}>Delete</button>
+            <button className="edit-button" onClick={closeDeleteModal}>Cancel</button>
           </Modal>
 
           <Modal
@@ -240,11 +244,10 @@ const BooksCRUD = () => {
                 onChange={handleInputChange}
               />
             </div>
-            <button onClick={handleAddBook}>Create</button>
-            <button onClick={closeCreateModal}>Close</button>
+            <button className="create-button" onClick={handleAddBook}>Create</button>
+            <button className="delete-button" onClick={closeCreateModal}>Close</button>
           </Modal>
-        </>
-      )}
+      
     </div>
   );
 };
