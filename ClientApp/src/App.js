@@ -96,6 +96,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/api/Authenticate/login" element={<Login />} />
           <Route path="/api/Authenticate/register-admin" element={<Signup />} />
+          <Route path="/api/Authenticate/register" element={<Signup />} />
           <Route path="/api/Authors" element={<AuthorsCRUD1 />} />
           <Route path="/api/Books" element={<BooksCRUD />} />
           <Route path="/api/Report" element={< Report/>} />

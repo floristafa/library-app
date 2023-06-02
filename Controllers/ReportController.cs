@@ -28,6 +28,7 @@ public class ReportController : ControllerBase
 
         var authorReports = authors.Select(a => new AuthorReportViewModel
         {
+            AuthorId= a.Id,
             AuthorName = a.Name,
             BookCount = a.Books.Count
         }).OrderByDescending(a => a.BookCount).ToList();

@@ -14,6 +14,7 @@ public class MappingProfile : Profile
         CreateMap<CategoryViewModel, Category>();
 
         CreateMap<Author, AuthorReportViewModel>();
+        CreateMap<AuthorReportViewModel, Author>();
         //CreateMap<AuthorViewModel, Author>();
     }
 }

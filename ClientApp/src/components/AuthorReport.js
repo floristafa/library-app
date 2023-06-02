@@ -3,6 +3,9 @@ import authService from '../services/auth.service';
 import {authenticatedDelete, authenticatedGet, authenticatedPost} from "../services/axios.service";
 import { authenticatedPut } from '../services/axios.service';
 import "../table.css"
+import Modal from 'react-modal';
+
+Modal.setAppElement('#root3'); // Set the app root element for accessibility
 
 const Report = () => {
   const [reports, setReports] = useState([]);
@@ -24,7 +27,7 @@ const Report = () => {
 
   const fetchReport = async () => {
     try {
-      const response = await authenticatedGet('/api/Authors');
+      const response = await authenticatedGet('/api/Report');
       setReports(response.data);
     } catch (error) {
       console.error('Error fetching report:', error);
@@ -46,10 +49,10 @@ const Report = () => {
           </tr>
         </thead>
         <tbody>
-          {reports.map((author) => (
-            <tr key={author.authorName}>
-              <td>{author.authorName}</td>
-              <td>{author.bookCount}</td>
+          {reports.map((report) => (
+            <tr key={report.authorName}>
+               <td>{report.authorName}</td>
+              <td>{report.bookCount}</td>
             </tr>
           ))}
         </tbody>
