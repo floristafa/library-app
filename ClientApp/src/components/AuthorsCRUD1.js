@@ -143,11 +143,8 @@ const AuthorsCRUD = () => {
                         <button className="edit-button" onClick={() => openEditModal(author)}>
                           Edit
                         </button>
-                      </div>
-                    )}
+                      
 
-                    {userRole === 'Admin' && (
-                      <div className="action-buttons">
                         <button className="delete-button" onClick={() => openDeleteModal(author)}>
                           Delete
                         </button>
